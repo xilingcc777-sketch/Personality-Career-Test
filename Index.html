@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Holland Career Interest Test</title>
+<style>
+  body { font-family: 'Arial', sans-serif; max-width: 750px; margin: auto; padding: 20px; background-color: #f0f4f8; }
+  h1 { color: #2c3e50; text-align: center; }
+  h2 { color: #34495e; font-size: 18px; margin-bottom: 10px; }
+  .question { background-color: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+  .options label { display: block; margin: 6px 0; cursor: pointer; }
+  input[type="radio"] { margin-right: 8px; }
+  button { background-color: #3498db; color: #fff; border: none; padding: 12px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background 0.3s; display: block; margin: auto; }
+  button:hover { background-color: #2980b9; }
+  #result { margin-top: 30px; padding: 20px; border-radius: 8px; background-color: #eaf2f8; border: 1px solid #3498db; display: none; }
+  #result h2 { color: #2c3e50; }
+  #result p { font-size: 16px; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<h1>Holland Career Interest Test (5 Questions)</h1>
+<form id="testForm">
+
+<div class="question">
+  <h2>1. What type of activity do you naturally enjoy the most?</h2>
+  <div class="options">
+    <label><input type="radio" name="q1" value="R"> A. Building, fixing, or hands-on tasks (R)</label>
+    <label><input type="radio" name="q1" value="I"> B. Solving problems or analyzing information (I)</label>
+    <label><input type="radio" name="q1" value="A"> C. Creating or designing something new (A)</label>
+    <label><input type="radio" name="q1" value="S"> D. Helping or teaching others (S)</label>
+    <label><input type="radio" name="q1" value="E"> E. Leading, persuading, or selling ideas (E)</label>
+    <label><input type="radio" name="q1" value="C"> F. Organizing, planning, or managing details (C)</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>2. What kind of environment do you prefer working in?</h2>
+  <div class="options">
+    <label><input type="radio" name="q2" value="R"> A. Practical settings (workshops, labs, outdoor tasks) (R)</label>
+    <label><input type="radio" name="q2" value="I"> B. Research-oriented or data-focused environments (I)</label>
+    <label><input type="radio" name="q2" value="A"> C. Creative or unstructured spaces (A)</label>
+    <label><input type="radio" name="q2" value="S"> D. Collaborative, people-focused environments (S)</label>
+    <label><input type="radio" name="q2" value="E"> E. Competitive or business-oriented workplaces (E)</label>
+    <label><input type="radio" name="q2" value="C"> F. Structured, orderly and rule-based environments (C)</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>3. In a team project, you are usually the one who…</h2>
+  <div class="options">
+    <label><input type="radio" name="q3" value="R"> A. Takes care of tools, equipment, or practical tasks (R)</label>
+    <label><input type="radio" name="q3" value="I"> B. Does the research and finds answers (I)</label>
+    <label><input type="radio" name="q3" value="A"> C. Makes things look attractive or designs the layout (A)</label>
+    <label><input type="radio" name="q3" value="S"> D. Supports teammates and keeps harmony (S)</label>
+    <label><input type="radio" name="q3" value="E"> E. Takes charge and directs the team (E)</label>
+    <label><input type="radio" name="q3" value="C"> F. Organizes files, schedules, or documentation (C)</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>4. What motivates you the most in a task?</h2>
+  <div class="options">
+    <label><input type="radio" name="q4" value="R"> A. Seeing a physical, visible result (R)</label>
+    <label><input type="radio" name="q4" value="I"> B. Discovering new knowledge or insights (I)</label>
+    <label><input type="radio" name="q4" value="A"> C. Having the freedom to express yourself (A)</label>
+    <label><input type="radio" name="q4" value="S"> D. Making a positive difference for people (S)</label>
+    <label><input type="radio" name="q4" value="E"> E. Achieving success or influencing others (E)</label>
+    <label><input type="radio" name="q4" value="C"> F. Completing tasks efficiently and accurately (C)</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>5. Which statement describes you best?</h2>
+  <div class="options">
+    <label><input type="radio" name="q5" value="R"> A. I’m practical and prefer hands-on work. (R)</label>
+    <label><input type="radio" name="q5" value="I"> B. I’m curious and enjoy understanding how things work. (I)</label>
+    <label><input type="radio" name="q5" value="A"> C. I’m imaginative and value artistic expression. (A)</label>
+    <label><input type="radio" name="q5" value="S"> D. I’m empathetic and enjoy supporting others. (S)</label>
+    <label><input type="radio" name="q5" value="E"> E. I’m confident and like taking charge. (E)</label>
+    <label><input type="radio" name="q5" value="C"> F. I’m detail-oriented and enjoy structure. (C)</label>
+  </div>
+</div>
+
+<button type="button" onclick="calculateResult()">Submit</button>
+
+</form>
+
+<div id="result"></div>
+
+<script>
+function calculateResult() {
+  const types = ["R","I","A","S","E","C"];
+  let scores = {R:0,I:0,A:0,S:0,E:0,C:0};
+  for (let i=1; i<=5; i++) {
+    const val = document.querySelector('input[name="q'+i+'"]:checked');
+    if (!val) { alert("Please answer all questions!"); return; }
+    scores[val.value]++;
+  }
+
+  let maxType = types[0];
+  for (let t of types) {
+    if (scores[t] > scores[maxType]) maxType = t;
+  }
+
+  const resultText = {
+    R: "Realistic (R) – You enjoy hands-on, practical tasks and working with tools, machines, or physical materials.<br>Possible careers: technician, engineer, mechanic, lab assistant, environmental field worker.",
+    I: "Investigative (I) – You enjoy analyzing, researching, and solving intellectual problems.<br>Possible careers: scientist, data analyst, medical researcher, software developer.",
+    A: "Artistic (A) – You are expressive, creative, and prefer flexible, unstructured environments.<br>Possible careers: designer, writer, graphic artist, musician, media creator.",
+    S: "Social (S) – You enjoy helping people, teaching, or providing support.<br>Possible careers: teacher, counselor, nurse, HR specialist, social worker.",
+    E: "Enterprising (E) – You like persuading others, leading projects, and taking initiative.<br>Possible careers: manager, entrepreneur, marketing specialist, sales strategist.",
+    C: "Conventional (C) – You value organization, accuracy, and working with data or systems.<br>Possible careers: accountant, administrator, analyst, operations coordinator."
+  };
+
+  document.getElementById("result").innerHTML = "<h2>Your Holland Type: " + maxType + "</h2><p>" + resultText[maxType] + "</p>";
+  document.getElementById("result").style.display = "block";
+  window.scrollTo(0, document.getElementById("result").offsetTop);
+}
+</script>
+
+</body>
+</html>
